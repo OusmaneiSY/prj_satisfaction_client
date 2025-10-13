@@ -1,0 +1,10 @@
+services:
+  etl:
+    container_name: satisfaction_client_etl
+    build: .
+    command: python etl.py
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    restart: unless-stopped

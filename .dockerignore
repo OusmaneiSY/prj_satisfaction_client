@@ -1,0 +1,11 @@
+#Fichier inutilses au build
+.git 
+.gitignore
+
+# Donnée locales
+extract/data/*
+*.csv
+*.log
+
+# Environnements
+.env
