@@ -7,4 +7,4 @@ services:
       - .:/app
     env_file:
       - .env
-    restart: unless-stopped
+    #restart: unless-stopped # A mettre si le conteneur doit fonctionner en continue

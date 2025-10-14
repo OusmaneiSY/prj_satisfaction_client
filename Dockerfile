@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Création de dossier
-#RUN mkdir -p data/raw / Création du dossier en local ou via le programe
+#RUN mkdir -p data/raw # Création du dossier en local ou via le programe
 
 # Exécuter en tant que utilisateur non-root
 RUN useradd -m appuser
