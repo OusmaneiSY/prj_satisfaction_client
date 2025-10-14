@@ -34,7 +34,7 @@ L’objectif principal est donc de **mesurer, synthétiser et visualiser la sati
 - **Livrables :**
   - Scripts SQL pour la création et les requêtes,
   - Implémentation ElasticSearch + dashboard Kibana.
-- **Outils :** SQL, ElasticSearch, MongoDB, Kibana.
+- **Outils :** SQL, ElasticSearch, MongoDB (*à confirmer*), Kibana.
 
 ### 3. Analyse et Machine Learning
 
@@ -98,8 +98,7 @@ docker compose version
 
    Une fois le conteneur lancé, les **bibliothèques Python nécessaires** sont automatiquement installées grâce au fichier `requirements.txt`, comme défini dans le `Dockerfile`. Cela garantit que l’environnement à l’intérieur du conteneur contient toutes les dépendances requises.
 
-   **Extrait du **``** :**
-
+   **Extrait du `Dockerfile` :**
    ```dockerfile
    # Copier les dépendances
    COPY requirements.txt .
@@ -108,8 +107,7 @@ docker compose version
 
    Cet extrait montre que les dépendances listées dans `requirements.txt` sont copiées dans l’image Docker, puis installées automatiquement lors du build initial. Ainsi, après le lancement de `docker compose up -d`, le conteneur prépare l’environnement Python avant d’exécuter le script principal.
 
-   **Extrait du **``** :**
-
+   **Extrait du `docker-compose.yml` :**
    ```yaml
    build: .
    volumes:
@@ -118,8 +116,25 @@ docker compose version
 
    L’instruction `build: .` indique à Docker d’utiliser le `Dockerfile` situé à la racine du projet pour construire l’image, tandis que le volume `.:/app` permet de synchroniser les fichiers locaux avec ceux du conteneur.
 
-3. **Arrêter les conteneurs :**
+3. **Excécuter `etl.py` dans le CLI du conteneur :**
+   
+   Pour interagir directement avec le conteneur et exécuter des commandes à l’intérieur, il est possible d’ouvrir un shell (CLI) via la commande suivante :
+   ```bash
+   docker exec -it satisfaction_client_etl bash
+   ```
 
+   Une fois dans le CLI du conteneur, exécute le script principal `etl.py` avec :
+   ```bash
+   python etl.py
+   ```
+   
+   Cette commande lance le script ETL et permet de vérifier son bon fonctionnement.
+   Tu devrais voir apparaître dans la console le message défini dans ton code, par exemple :
+      ```bash
+   Démarrage du script ETL...
+   ```
+
+4. **Arrêter les conteneurs :**
    ```bash
    docker compose down
    ```
@@ -130,7 +145,7 @@ docker compose version
 
 ## Ajouter du code et gérer les imports dans `etl.py`
 
-Le fichier principal `` est le point d’entrée du pipeline ETL. C’est ici que sont orchestrées les différentes étapes d’extraction, de transformation et de chargement des données.
+Le fichier principal `etl.py` est le point d’entrée du pipeline ETL. C’est ici que sont orchestrées les différentes étapes d’extraction, de transformation et de chargement des données.
 
 ### Structure typique du projet
 
@@ -186,15 +201,13 @@ Le projet inclut un fichier `.env` pour centraliser les variables sensibles (mot
 ### Pourquoi utiliser un fichier `.env` ?
 
 Avoir un fichier `.env` permet d’adopter une approche **professionnelle et sécurisée** :
-
 - Les mots de passe et clés API **ne doivent jamais être partagés** ni commités sur GitHub.
 - Les informations sensibles peuvent être facilement modifiées sans impacter le code source.
 - Cela facilite la gestion des environnements (développement, test, production).
 
 ### Exemple d’utilisation
 
-**Fichier **``** :**
-
+**Fichier `.env` :**
 ```bash
 DB_USER=my_user
 DB_PASSWORD=my_password
@@ -202,7 +215,6 @@ API_KEY=abc123xyz
 ```
 
 **Utilisation dans le code Python :**
-
 ```python
 from dotenv import load_dotenv
 import os
@@ -214,8 +226,7 @@ password = os.getenv("DB_PASSWORD")
 api_key = os.getenv("API_KEY")
 ```
 
-**Référence dans le **``** :**
-
+**Référence dans le `docker-compose.yml` :**
 ```yaml
 env_file:
   - .env

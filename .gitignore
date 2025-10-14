@@ -1,2 +1,5 @@
 # Fichiers environnement (sensibles)
 .env
+
+# Fichier générer par macOS
+.DS_Store
