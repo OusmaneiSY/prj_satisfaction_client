@@ -17,7 +17,7 @@ jobs:
         run: |
           pip install pytest
         
-      - name: Install ptyhon requirements
+      - name: Install python requirements
         run: |
           pip install --no-cache-dir -r requirements.txt
       - name: Run tests
