@@ -11,12 +11,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier tout le code du projet
 COPY . .
 
-# Création de dossier
-#RUN mkdir -p data/raw # Création du dossier en local ou via le programe
-
 # Exécuter en tant que utilisateur non-root
 RUN useradd -m appuser
+RUN chown -R appuser:appuser /app
 USER appuser
 
-# Commande par défaut pour exécuter le pipeline
-CMD [ "python", "etl.py" ]
+# Commande pour exécuter le pipeline
+RUN python etl.py
