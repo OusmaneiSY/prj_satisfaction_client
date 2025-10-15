@@ -131,7 +131,7 @@ def test_parse_company_data():
     company = "www.showroomprive.com"
     html = get_company_data_from_trustpilot(company)
     data = parse_company_data(html)
-    output = data["displayName"]
+    output = data["websiteUrl"]
 
     assert output == company
 
