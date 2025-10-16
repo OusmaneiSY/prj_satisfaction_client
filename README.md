@@ -19,14 +19,14 @@ L’objectif principal est donc de **mesurer, synthétiser et visualiser la sati
 
 ## Étapes du Projet
 
-### 1. Récolte et Transformation des Données
+### 1. Extraction des Données
 
 - **Objectif :** extraire des informations à partir de sites comme Trustpilot.
-- **Méthodes :** web scraping et nettoyage des données.
+- **Méthodes :** web scraping et enregistrement des données dans des fichier CSV et JSON.
 - **Livrables :**
   - Fichiers CSV et JSON,
   - Fichier explicatif du traitement (documentation technique).
-- **Outils :** Python (requests, BeautifulSoup, Scrapy).
+- **Outils :** Python (requests, BeautifulSoup, Pandas) et no code (extension web scraper).
 
 ### 2. Organisation de la Donnée
 
@@ -249,6 +249,6 @@ env_file:
 ## Équipe du Projet
 
 - Ousmane Ibrahima SY [LinkedIn](https://www.linkedin.com/in/ousmane-sy-6926a6139) / [GitHub](https://github.com/Oussouke)
-- Arnaud GUILLOUX [LinkedIn](https://www.linkedin.com/arnaudguillouxfrance) / [GitHub](https://github.com/arnaudguilloux)
+- Arnaud GUILLOUX [LinkedIn](https://www.linkedin.com/) / [GitHub](https://github.com/)
 - Rodolphe Katz [LinkedIn](https://www.linkedin.com/) / [GitHub](https://github.com/)
 
