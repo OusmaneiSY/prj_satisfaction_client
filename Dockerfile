@@ -18,4 +18,4 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Commande pour exécuter le pipeline
-#RUN python etl.py
+# RUN python etl.py
