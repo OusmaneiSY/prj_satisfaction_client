@@ -12,9 +12,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Exécuter en tant que utilisateur non-root
+
 RUN useradd -m appuser
 RUN chown -R appuser:appuser /app
 USER appuser
 
 # Commande pour exécuter le pipeline
-RUN python etl.py
+#RUN python etl.py

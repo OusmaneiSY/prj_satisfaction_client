@@ -3,3 +3,8 @@ services:
     container_name: satisfaction_client_etl
 
     build: .
+
+#    volumes:
+#      - ./data:/data
+
+    command: python etl.py
