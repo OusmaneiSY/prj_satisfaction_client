@@ -107,18 +107,6 @@ def create_company_data_dataframe(company_list):
     return temp_df
 
 
-def main_scrape_companies():
-    # create the list of company names
-    companies = ["www.showroomprive.com", "loaded.com",
-                 "westernunion.com", "justfly.com", "www.facebook.com"]
-
-    # collect company information in a dataframe
-    companies_df = create_company_data_dataframe(companies)
-
-    # write the content of companies_df to a csv file
-    companies_df.to_csv("companies_information.csv")
-
-
 def test_get_company_data_from_trustpilot():
     company = "www.showroomprive.com"
     html = get_company_data_from_trustpilot(company)
@@ -135,7 +123,3 @@ def test_parse_company_data():
 
     assert output == "Showroomprive"
 
-
-if __name__ == "__main__":
-    print("Récupération des données globales des entreprises...")
-    main_scrape_companies()
