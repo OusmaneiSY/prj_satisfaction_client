@@ -249,6 +249,6 @@ env_file:
 ## Équipe du Projet
 
 - Ousmane Ibrahima SY [LinkedIn](https://www.linkedin.com/in/ousmane-sy-6926a6139) / [GitHub](https://github.com/Oussouke)
-- Arnaud GUILLOUX [LinkedIn](https://www.linkedin.com/) / [GitHub](https://github.com/)
+- Arnaud GUILLOUX [LinkedIn](https://www.linkedin.com/arnaudguillouxfrance) / [GitHub](https://github.com/arnaudguilloux)
 - Rodolphe Katz [LinkedIn](https://www.linkedin.com/) / [GitHub](https://github.com/)
 
