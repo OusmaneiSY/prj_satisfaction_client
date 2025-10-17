@@ -1,10 +1,11 @@
 services:
-  etl:
-    container_name: satisfaction_client_etl
-    build: .
-    command: python etl.py
+  etl_elt:
+    container_name: satisfaction_client_etl_elt
+
+    build: ./etl_elt/.
+
     volumes:
-      - .:/app
-    env_file:
-      - .env
-    #restart: unless-stopped # A mettre si le conteneur doit fonctionner en continue
+      - ./etl_elt/scripts:/app/scripts
+      - ./volumes/etl_elt:/app/extracts
+
+    command: python /app/scripts/etl_elt.py
