@@ -5,4 +5,4 @@
 .DS_Store
 
 # Fichiers contenus dans les volumes de données sql, elastic, etc...
-volumes/*
+volumes/etl_elt/*
