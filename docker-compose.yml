@@ -2,11 +2,11 @@ services:
   etl:
     container_name: satisfaction_client_etl
 
-    #pull_policy: build
+    pull_policy: build
 
     build: .
 
     command: python etl.py
 
-#    volumes:
-#      - ./data:/data
+    volumes:
+      - ./data:/app/data

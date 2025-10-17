@@ -19,7 +19,8 @@ def main_etl():
     companies_df = create_company_data_dataframe(company_list)
 
     # write the content of companies_df to a csv file
-    companies_df.to_csv("./extract/companies_information.csv")
+    #companies_df.to_csv("./extract/data/companies_information.csv")
+    companies_df.to_csv("./data/companies_information.csv")
 
     print(companies_df.head())
     # Petit délai pour éviter la fermeture immédiate du conteneur Docker
