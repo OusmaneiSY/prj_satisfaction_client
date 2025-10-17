@@ -14,7 +14,6 @@ COPY . .
 # Exécuter en tant que utilisateur non-root
 
 RUN useradd -m appuser
-RUN chown -R appuser:appuser /app
 USER appuser
 
 # Commande pour exécuter le pipeline
