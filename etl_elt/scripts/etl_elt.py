@@ -7,22 +7,24 @@ appelées ici lorsque le code sera prêt.
 """
 
 import time
-from extract.scrape_compagnies import *
+from scrape_company_metadatas import *
 
 def main_etl():
+
+    outputFolder = "/app/extracts/"
     """Fonction principale du pipeline ETL."""
 
     # TODO: Appelez les fonctions ici (extraction, transformation, chargement)
     company_list = ["www.showroomprive.com", "loaded.com", "westernunion.com", "justfly.com", "www.facebook.com"]
 
-    # collect company information in a dataframe
+    # collect company metadatas in a dataframe
     companies_df = create_company_data_dataframe(company_list)
 
     # write the content of companies_df to a csv file
     #companies_df.to_csv("./extract/data/companies_information.csv")
-    companies_df.to_csv("./data/companies_information.csv")
+    #companies_df.to_csv("/app/extracts/companies_information.csv")
+    companies_df.to_csv(outputFolder + "companies_metadatas.csv")
 
-    print(companies_df.head())
     # Petit délai pour éviter la fermeture immédiate du conteneur Docker
     time.sleep(5)
 
