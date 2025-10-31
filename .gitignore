@@ -6,3 +6,17 @@
 
 # Fichiers contenus dans les volumes de données sql, elastic, etc...
 volumes/etl_elt/*
+
+# Fichier certificat
+certs/
+
+# Certificat public à garder
+!certs/ca/
+!certs/ca/ca.crt
+
+# Clé privé à enlever
+certs/**/*.key
+
+#Data
+data/elasticsearch/*
+!data/elasticsearch/.gitkeep

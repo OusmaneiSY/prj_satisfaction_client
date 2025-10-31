@@ -9,3 +9,50 @@ services:
       - ./volumes/etl_elt:/app/extracts
 
     command: python /app/scripts/etl_elt.py
+
+  elasticsearch:
+      image: elasticsearch:${ES_VERSION}
+      container_name: elasticsearch
+      environment:
+        - discovery.type=single-node
+        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+        - xpack.security.enabled=true
+        - xpack.security.http.ssl.enabled=true
+        - xpack.security.http.ssl.key=certs/elasticsearch/elasticsearch.key
+        - xpack.security.http.ssl.certificate=certs/elasticsearch/elasticsearch.crt
+        - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+        - xpack.security.http.ssl.verification_mode=none  
+
+      ports:
+        - "${ES_PORT}:9200"
+      volumes:
+        - ./data/elasticsearch:/usr/share/elasticsearch/data
+        - ./certs:/usr/share/elasticsearch/config/certs
+      networks:
+        - elk
+
+  kibana:
+      image: kibana:${ES_VERSION}
+      container_name: kibana
+      environment:
+        - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+        - ELASTICSEARCH_USERNAME=${KIBANA_USERNAME}
+        - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+        - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=/usr/share/kibana/config/certs/ca/ca.crt
+        - ELASTICSEARCH_SSL_VERIFICATIONMODE=none
+        - SERVER_HOST=0.0.0.0
+        - XPACK_SECURITY_ENCRYPTIONKEY=${XPACK_SECURITY_ENCRYPTIONKEY}
+        - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY}
+        - XPACK_REPORTING_ENCRYPTIONKEY=${XPACK_REPORTING_ENCRYPTIONKEY}
+      ports:
+        - "${KIBANA_PORT}:5601"
+      volumes:
+        - ./certs:/usr/share/kibana/config/certs
+      depends_on:
+        - elasticsearch
+      networks:
+        - elk
+
+networks:
+    elk:
+      driver: bridge
