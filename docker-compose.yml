@@ -1,15 +1,4 @@
 services:
-  etl_elt:
-    container_name: satisfaction_client_etl_elt
-
-    build: ./etl_elt/.
-
-    volumes:
-      - ./etl_elt/scripts:/app/scripts
-      - ./volumes/etl_elt:/app/extracts
-
-    command: python /app/scripts/etl_elt.py
-
   elasticsearch:
       image: elasticsearch:${ES_VERSION}
       container_name: elasticsearch
@@ -52,6 +41,24 @@ services:
         - elasticsearch
       networks:
         - elk
+  etl_elt:
+      container_name: satisfaction_client_etl_elt
+      build: ./etl_elt/.
+      volumes:
+        - ./etl_elt/scripts:/app/scripts
+        - ./volumes/etl_elt:/app/extracts
+        - ./certs:/app/certs
+      command: python /app/scripts/etl_elt.py
+      depends_on:
+        - elasticsearch
+      environment:
+        - ELASTIC_URL=https://elasticsearch:9200
+        - ELASTIC_USERNAME=elastic
+        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+        - CA_CERT_PATH=/app/certs/ca/ca.crt
+      networks:
+        - elk        
+        
 
 networks:
     elk:
