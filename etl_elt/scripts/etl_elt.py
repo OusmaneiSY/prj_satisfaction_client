@@ -8,7 +8,7 @@ appelées ici lorsque le code sera prêt.
 
 import time
 from scrape_company_metadatas import *
-from elastic_loader import create_index
+from elastic_loader import load_reviews_to_elasticsearch, get_es_connection
 
 
 def main_etl_elt():
@@ -28,14 +28,15 @@ def main_etl_elt():
 
     # Petit délai pour éviter la fermeture immédiate du conteneur Docker
     #time.sleep(5)
-    print("Création de l’index Elasticsearch")
+    print("Chargement dans Elasticsearch")
     try:
-        create_index('reviews')
-        print("Création d’index terminée avec succès.")
+        es_url, auth, ca_cert_path = get_es_connection()
+        companies = ["showroomprive_fr"]
+        load_reviews_to_elasticsearch(es_url, auth, ca_cert_path, "reviews", companies)
     except Exception as e:
         print(f"Erreur durant l’étape Elasticsearch : {e}")
 
-    print("Fin du processus ETL.")
+    print("Fin du processus de chargement.")
 
 if __name__ == "__main__":
     print("Démarrage du script ETL...")

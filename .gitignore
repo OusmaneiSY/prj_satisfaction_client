@@ -16,3 +16,6 @@ certs/
 
 # Clé privé à enlever
 certs/**/*.key
+
+# Data
+data/
