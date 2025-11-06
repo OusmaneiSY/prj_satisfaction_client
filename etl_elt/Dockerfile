@@ -8,6 +8,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+
+
 # Copier tout le code du projet
 # Pour le moment, on ne fait pas, on crée un volume dans le docker compose qui pointe vers le répertoire contenant les scripts
 # COPY ./scripts /app/scripts

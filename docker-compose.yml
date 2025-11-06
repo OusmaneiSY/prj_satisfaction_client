@@ -58,7 +58,30 @@ services:
         - CA_CERT_PATH=/app/certs/ca/ca.crt
       networks:
         - elk        
-        
+  ml:
+    build:
+      context: .
+      dockerfile: ml/Dockerfile
+    container_name: ml_training
+    volumes:
+      - ./ml/scripts:/app/ml/scripts   
+      - ./ml/data:/app/ml/data      
+      - ./ml/models:/app/ml/models  
+      - ./ml/notebooks:/app/ml/notebooks
+      - ./certs:/app/certs
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --no-browser
+    depends_on:
+      - elasticsearch               
+    environment:
+        - ELASTIC_URL=https://elasticsearch:9200
+        - ELASTIC_USERNAME=elastic
+        - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+        - CA_CERT_PATH=/app/certs/ca/ca.crt
+    networks:
+      - elk
+    
 
 networks:
     elk:

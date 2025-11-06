@@ -157,7 +157,8 @@ def load_reviews_to_elasticsearch(es_url, auth, ca_cert_path, index_name="review
         """""
         bulk_data = []
         for r in reviews:
-            review_count = _extract_review_count(r.get("review_count", "0"))
+            review_count = _extract_value(r.get("review_count", "0"))
+            rating = _extract_value(r.get("stars", "0"))
             doc = {
                 "company_name": company,
                 "user_name": r.get("user_name", "").strip(),
@@ -166,7 +167,7 @@ def load_reviews_to_elasticsearch(es_url, auth, ca_cert_path, index_name="review
                 "review": r.get("comment_text", "").strip(),
                 "review_date_absolute": _normalize_date(r.get("review_date_absolute")),
                 "response_date": _normalize_date(r.get("response_date")),
-                "rating": _extract_rating(r.get("user_score-src")),
+                "rating": rating,
                 "source": "trustpilot"
             }
 
@@ -198,7 +199,7 @@ def load_reviews_to_elasticsearch(es_url, auth, ca_cert_path, index_name="review
 # ================================================================
 # === Utils (extraction et nettoyage)
 # ================================================================
-def _extract_review_count(value):
+def _extract_value(value):
     match = re.search(r"\d+", str(value))
     return int(match.group()) if match else 0
 
@@ -214,9 +215,3 @@ def _normalize_date(date_str):
         except Exception:
             return None
 
-
-def _extract_rating(score_url):
-    if not score_url:
-        return None
-    match = re.search(r"stars-(\d)", score_url)
-    return float(match.group(1)) if match else None

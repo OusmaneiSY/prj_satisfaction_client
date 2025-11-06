@@ -28,15 +28,16 @@ def main_etl_elt():
 
     # Petit délai pour éviter la fermeture immédiate du conteneur Docker
     #time.sleep(5)
+
     print("Chargement dans Elasticsearch")
     try:
         es_url, auth, ca_cert_path = get_es_connection()
-        companies = ["showroomprive_fr"]
+        companies = ["showroomprive", "loaded", "westernunion", "justfly", "facebook"]
         load_reviews_to_elasticsearch(es_url, auth, ca_cert_path, "reviews", companies)
     except Exception as e:
         print(f"Erreur durant l’étape Elasticsearch : {e}")
 
-    print("Fin du processus de chargement.")
+    #print("Fin du processus de chargement.")
 
 if __name__ == "__main__":
     print("Démarrage du script ETL...")
