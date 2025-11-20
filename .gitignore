@@ -19,3 +19,15 @@ certs/**/*.key
 
 # Data
 data/
+
+# Airflow
+airflow/logs/
+airflow/plugins/__pycache__/
+airflow/dags/__pycache__/
+airflow/config/airflow.cfg
+airflow/webserver_config.py
+
+# Python 
+__pycache__/
+*.pyc
+*.pyo
