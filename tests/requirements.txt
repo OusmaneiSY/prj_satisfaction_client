@@ -1,0 +1,12 @@
+pytest
+pytest-asyncio
+httpx
+uvicorn
+fastapi
+pydantic
+joblib
+scikit-learn
+spacy
+pandas
+requests
+elasticsearch==8.12.0

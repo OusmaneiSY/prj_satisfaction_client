@@ -6,7 +6,7 @@ import requests
 from datetime import datetime
 from requests.auth import HTTPBasicAuth
 from airflow.decorators import task
-
+from airflow.models import Variable
 
 # ================================================================
 # ============= TÂCHE 1 : Connexion Elasticsearch ================
@@ -17,10 +17,10 @@ def get_es_connection():
     Initialise la connexion Elasticsearch et retourne 
     (es_url, auth, ca_cert_path).
     """
-    es_url = os.environ.get("ELASTIC_URL")
-    es_user = os.environ.get("ELASTIC_USERNAME")
-    es_pass = os.environ.get("ELASTIC_PASSWORD")
-    ca_cert_path = os.environ.get("CA_CERT_PATH")
+    es_url = Variable.get("ELASTIC_URL", default_var=None)
+    es_user = Variable.get("ELASTIC_USERNAME", default_var=None)
+    es_pass = Variable.get("ELASTIC_PASSWORD", default_var=None)
+    ca_cert_path = Variable.get("CA_CERT_PATH", default_var=None)
 
     if not all([es_url, es_user, es_pass, ca_cert_path]):
         raise EnvironmentError("Variables d'environnement Elasticsearch manquantes.")

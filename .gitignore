@@ -31,3 +31,8 @@ airflow/webserver_config.py
 __pycache__/
 *.pyc
 *.pyo
+
+# ML
+ml/models/*.pkl
+ml/models/*
+!ml/models/.gitkeep

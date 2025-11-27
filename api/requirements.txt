@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+pydantic
+joblib
+scikit-learn
+spacy
+pandas
+requests
+elasticsearch==8.12.0
