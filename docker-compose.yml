@@ -389,8 +389,6 @@ services:
       context: .
       dockerfile: tests/Dockerfile
     container_name: api_tests
-    depends_on:
-      - api
     networks:
       - elk
   
