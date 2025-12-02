@@ -178,9 +178,9 @@ Ce fichier est chargé automatiquement par Docker Compose.
 ---
 
 ## Generation des certificats Elasticsearch
-Les certificats utilises pour securiser Elasticsearch sont generes manuellement et stockes dans le dossier `certs/`.
+Les certificats utilisés pour securiser Elasticsearch sont generés manuellement et stockés dans le dossier `certs/`.
 
-### 1. Generer la CA (Certificate Authority)
+### 1. Générer la CA (Certificate Authority)
 ```
 docker run --rm \
   -v ./certs:/certs \
@@ -199,7 +199,7 @@ certs/ca/
   ca.key
 ```
 
-### 2. Generer le certificat serveur Elasticsearch
+### 2. Générer le certificat serveur Elasticsearch
 ```
 docker run --rm \
   -v ./certs:/certs \
@@ -220,7 +220,7 @@ certs/elasticsearch/
   elasticsearch.crt
   elasticsearch.key
 ```
-Ces chemins correspondent exactement aux parametres utilises dans le `docker-compose.yml`.
+Ces chemins correspondent exactement aux paramètres utilisés dans le `docker-compose.yml`.
 
 ---
 
