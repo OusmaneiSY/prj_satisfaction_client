@@ -2,254 +2,229 @@
 # Projet : Satisfaction Client dans la Supply Chain
 
 ## Présentation et Objectifs
+Ce projet, réalisé dans le cadre de la formation Data Engineer de DataScientest, vise à analyser la satisfaction client à partir d'avis collectés en ligne, principalement depuis Trustpilot. L'objectif est de mesurer, synthétiser et visualiser ces avis, tout en automatisant leur collecte, leur traitement et leur mise à jour.
 
-Ce projet, réalisé dans le cadre de la formation [**Data Engineer - DataScientest**](https://datascientest.com/), a pour objectif d’analyser la **satisfaction client** à partir d’avis collectés en ligne, notamment sur **Trustpilot** et d’autres plateformes de notation.
-
-La **supply chain** englobe l’ensemble du processus d’approvisionnement, de production et de distribution d’un produit.\
-L’analyse de la satisfaction client permet d’évaluer la qualité de cette chaîne en identifiant des problématiques liées à :
-
-- la conception des produits,
-- la logistique et les délais de livraison,
-- la tarification,
-- la durabilité,
-- ou encore la conformité du service aux attentes du marché.
-
-L’objectif principal est donc de **mesurer, synthétiser et visualiser la satisfaction client**, tout en automatisant la collecte, le traitement et la mise à jour des données.
-
----
+L'analyse couvre plusieurs dimensions clés de la supply chain : conception des produits, logistique et délais de livraison, tarification, durabilité et adéquation globale aux attentes du marché.
 
 ## Étapes du Projet
 
 ### 1. Extraction des Données
-
-- **Objectif :** extraire des informations à partir de sites comme Trustpilot.
-- **Méthodes :** web scraping et enregistrement des données dans des fichier CSV et JSON.
-- **Livrables :**
-  - Fichiers CSV et JSON,
-  - Fichier explicatif du traitement (documentation technique).
-- **Outils :** Python (requests, BeautifulSoup, Pandas) et no code (extension web scraper).
+- Extraction d'avis clients via scraping.
+- Enregistrement en JSON et CSV.
+- Outils : Python (Requests, BeautifulSoup, Pandas).
 
 ### 2. Organisation de la Donnée
-
-- **Objectif :** concevoir une base de données relationnelle pour les informations sur les entreprises et une base orientée document pour les commentaires clients.
-- **Livrables :**
-  - Scripts SQL pour la création et les requêtes,
-  - Implémentation ElasticSearch + dashboard Kibana.
-- **Outils :** SQL, ElasticSearch, MongoDB (*à confirmer*), Kibana.
+- Stockage structuré dans PostgreSQL.
+- Indexation documentaire dans Elasticsearch.
+- Visualisation dans Kibana.
 
 ### 3. Analyse et Machine Learning
-
-- **Objectif :** effectuer une **analyse de sentiment** sur les avis collectés.
-- **Livrables :** notebook commenté avec les modèles d’analyse.
-- **Outils :** Python (Pandas, Scikit-learn, NLTK, TextBlob).
+- Analyse de sentiment sur les textes collectés.
+- Notebook détaillé et reproductible.
+- Outils : Scikit-learn, Pandas, SpaCy, Wordcloud.
 
 ### 4. Mise en Production
-
-- **Objectif :** exposer les modèles via une API et rendre le projet déployable.
-- **Livrables :**
-  - API Flask ou FastAPI,
-  - Conteneurisation Docker (Dockerfile + docker-compose).
-- **Outils :** FastAPI, Docker, GitLab CI.
+- Déploiement des modèles via une API.
+- Conteneurisation complète.
+- Outils : FastAPI, Docker.
 
 ### 5. Automatisation et Monitoring
-
-- **Objectif :** automatiser le scraping, le déploiement et la surveillance du système.
-- **Livrables :**
-  - Pipeline CI/CD,
-  - DAG Airflow ou CronJob,
-  - Monitoring avec Prometheus / Grafana.
-- **Outils :** Airflow, GitLab, Prometheus, Grafana.
+- Pipeline Airflow pour orchestrer les tâches.
+- Monitoring complet avec Prometheus et Grafana.
+- CI via GitHub Actions.
 
 ---
 
 ## Installation et Lancement via Docker
-
-L’application est entièrement conteneurisée pour simplifier le déploiement et l’exécution sur tous les systèmes (Windows, Linux et macOS).
+L'ensemble du projet fonctionne via Docker pour garantir une exécution reproductible sur Windows, Linux ou macOS.
 
 ### Prérequis
+- Docker Desktop (Windows et macOS) ou Docker Engine (Linux)
 
-Assurez-vous d’avoir installé :
-
-- [**Docker Desktop**](https://www.docker.com/products/docker-desktop/) (Windows / macOS)
-- [**Docker Engine**](https://docs.docker.com/engine/install/) (Linux)
-
-Pour vérifier l’installation :
-
-```bash
+Vérification :
+```
 docker --version
 docker compose version
 ```
 
-### Lancer le projet
+### Lancement du Projet
+1. Cloner le dépôt :
+```
+git clone <lien_du_dépôt_github>
+cd sep25_bde_satisfaction_b
+```
 
-1. **Cloner le dépôt :**
+2. Démarrer les services :
+```
+docker compose up -d
+```
 
-   ```bash
-   git clone <lien_du_dépôt_github>
-   cd sep25_bde_satisfaction_b
-   ```
-
-2. **Démarrer le service ETL :**
-
-   ```bash
-   docker compose up -d
-   ```
-
-   Grâce au montage de volume de l’application, toute modification du code source est automatiquement prise en compte sans nécessiter de reconstruction complète de l’image.
-
-   Une fois le conteneur lancé, les **bibliothèques Python nécessaires** sont automatiquement installées grâce au fichier `requirements.txt`, comme défini dans le `Dockerfile`. Cela garantit que l’environnement à l’intérieur du conteneur contient toutes les dépendances requises.
-
-   **Extrait du `Dockerfile` :**
-   ```dockerfile
-   # Copier les dépendances
-   COPY requirements.txt .
-   RUN pip install --no-cache-dir -r requirements.txt
-   ```
-
-   Cet extrait montre que les dépendances listées dans `requirements.txt` sont copiées dans l’image Docker, puis installées automatiquement lors du build initial. Ainsi, après le lancement de `docker compose up -d`, le conteneur prépare l’environnement Python avant d’exécuter le script principal.
-
-   **Extrait du `docker-compose.yml` :**
-   ```yaml
-   build: .
-   volumes:
-     - .:/app
-   ```
-
-   L’instruction `build: .` indique à Docker d’utiliser le `Dockerfile` situé à la racine du projet pour construire l’image, tandis que le volume `.:/app` permet de synchroniser les fichiers locaux avec ceux du conteneur.
-
-3. **Excécuter `etl.py` dans le CLI du conteneur :**
-   
-   Pour interagir directement avec le conteneur et exécuter des commandes à l’intérieur, il est possible d’ouvrir un shell (CLI) via la commande suivante :
-   ```bash
-   docker exec -it satisfaction_client_etl bash
-   ```
-
-   Une fois dans le CLI du conteneur, exécute le script principal `etl.py` avec :
-   ```bash
-   python etl.py
-   ```
-   
-   Cette commande lance le script ETL et permet de vérifier son bon fonctionnement.
-   Tu devrais voir apparaître dans la console le message défini dans ton code, par exemple :
-      ```bash
-   Démarrage du script ETL...
-   ```
-
-4. **Arrêter les conteneurs :**
-   ```bash
-   docker compose down
-   ```
-
-> ℹ️ Le `docker-compose.yml` est configuré pour un environnement de développement. Il sera enrichi progressivement pour inclure d’autres services (API, base de données, monitoring, etc.).
+Les services suivants seront disponibles : Airflow, API FastAPI, Jupyter ML, Elasticsearch, Kibana, Prometheus, Grafana.
 
 ---
 
-## Ajouter du code et gérer les imports dans `etl.py`
+## Accès aux Services Principaux
 
-Le fichier principal `etl.py` est le point d’entrée du pipeline ETL. C’est ici que sont orchestrées les différentes étapes d’extraction, de transformation et de chargement des données.
+### Airflow
+- Interface Web : accessible via le port configuré (par défaut 8080 si exposé).
+- Conteneurs actifs : scheduler, worker, triggerer, dag-processor, api-server.
 
-### Structure typique du projet
+### Jupyter Notebook (Machine Learning)
+Accès via :
+```
+http://localhost:8888
+```
+ou, sur machine virtuelle :
+```
+http://<IP_VM>:8888
+```
 
+### API FastAPI (Analyse de sentiment)
+Accessible via la documentation interactive :
+- En local :
+```
+http://localhost:8000/docs
+```
+- Via machine virtuelle ou serveur :
+```
+http://<IP_VM>:8000/docs
+```
+
+### Elasticsearch et Kibana
+- Elasticsearch sécurisé (HTTPS).
+- Kibana :
+```
+http://<IP>:5601
+```
+
+### Monitoring (Prometheus et Grafana)
+- Prometheus :
+```
+http://<IP>:9090
+```
+- Grafana :
+```
+http://<IP>:3000
+```
+
+---
+
+## Structure du Projet
 ```
 project_root/
 │
-├── extract/
-│   ├── __init__.py
-│   ├── scrape_compagnies.py
-│   ├── scrape_reviews.py
+├── airflow/
+│   ├── dags/
+│   ├── logs/
+│   ├── plugins/
+│   └── config/
 │
-├── notebooks/
+├── api/
+│   ├── scripts/
+│   ├── models/
+│   └── Dockerfile
 │
-├── etl.py
-├── Dockerfile
+├── ml/
+│   ├── scripts/
+│   ├── data/
+│   ├── models/
+│   ├── notebooks/
+│   └── Dockerfile
+│
+├── monitoring/
+│   └── prometheus.yml
+│
+├── certs/
 ├── docker-compose.yml
-├── requirements.txt
-└── .env
+├── .env
+└── README.md
 ```
-
-### Ajouter du code dans `etl.py`
-
-Pour intégrer une nouvelle fonctionnalité (par exemple une fonction de nettoyage ou une nouvelle source de données), créez un fichier Python dans le dossier `extract/` et importez-le ensuite dans `etl.py`.
-
-**Exemple :**
-
-Dans `extract/scrape_reviews.py` :
-
-```python
-def scrape_reviews():
-    print("Scraping des avis clients...")
-```
-
-Dans `etl.py` :
-
-```python
-from extract.scrape_reviews import scrape_reviews
-
-if __name__ == "__main__":
-    scrape_reviews()
-```
-
-Grâce au montage de volume défini dans `docker-compose.yml`, toute modification locale dans ces fichiers est immédiatement prise en compte par le conteneur. Il n’est donc **pas nécessaire de reconstruire l’image** pour tester de nouvelles fonctions.
-
-> 💡 **Astuce :** Assurez-vous que chaque module Python contient un fichier `__init__.py` (même vide) pour que Python reconnaisse le dossier comme un package importable.
 
 ---
 
-## Gestion des variables d’environnement (.env)
+## Ajout de Code
 
-Le projet inclut un fichier `.env` pour centraliser les variables sensibles (mots de passe, identifiants API, configurations de base de données, etc.).
-
-### Pourquoi utiliser un fichier `.env` ?
-
-Avoir un fichier `.env` permet d’adopter une approche **professionnelle et sécurisée** :
-- Les mots de passe et clés API **ne doivent jamais être partagés** ni commités sur GitHub.
-- Les informations sensibles peuvent être facilement modifiées sans impacter le code source.
-- Cela facilite la gestion des environnements (développement, test, production).
-
-### Exemple d’utilisation
-
-**Fichier `.env` :**
-```bash
-DB_USER=my_user
-DB_PASSWORD=my_password
-API_KEY=abc123xyz
+### Exemple dans le module ML
+Fichier : `ml/scripts/my_cleaner.py`
+```
+def clean_data():
+    print("Nettoyage des données")
+```
+Utilisation :
+```
+from ml.scripts.my_cleaner import clean_data
+clean_data()
 ```
 
-**Utilisation dans le code Python :**
-```python
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-user = os.getenv("DB_USER")
-password = os.getenv("DB_PASSWORD")
-api_key = os.getenv("API_KEY")
+### Exemple dans l'API
+Fichier : `api/scripts/predict.py`
 ```
-
-**Référence dans le `docker-compose.yml` :**
-```yaml
-env_file:
-  - .env
+def predict(text):
+    return {"sentiment": "positive"}
 ```
-
-> ⚠️ Le fichier `.env` doit être ajouté dans le `.gitignore` pour éviter toute fuite de données sensibles.
+Ce fichier est monté automatiquement dans le conteneur.
 
 ---
 
-## Bonnes pratiques Docker
+## Variables d'Environnement
+Un fichier `.env` centralise les paramètres sensibles :
+- Accès Elasticsearch (SSL, identifiants)
+- Credentiels API
+- Paramètres Airflow
+- Configurations PostgreSQL
 
-- Utiliser des **volumes montés** pour permettre le rechargement automatique du code sans rebuild.
-- Éviter les reconstructions inutiles (`docker compose up` suffit pour appliquer les changements).
-- Utiliser des **variables d’environnement** pour distinguer les contextes (développement, test, production).
-- Exécuter les processus sous un **utilisateur non-root** pour des raisons de sécurité.
-- Structurer le projet avec des dossiers dédiés (`/extract`, `/data`, `/api`, `/notebooks`, etc.) pour faciliter la maintenance.
+Ce fichier est chargé automatiquement par Docker Compose.
+
+---
+
+## Generation des certificats Elasticsearch
+Les certificats utilises pour securiser Elasticsearch sont generes manuellement et stockes dans le dossier `certs/`.
+
+### 1. Generer la CA (Certificate Authority)
+```
+docker run --rm \
+  -v ./certs:/certs \
+  docker.elastic.co/elasticsearch/elasticsearch:9.2.0 \
+  elasticsearch-certutil ca --pem \
+  --out /certs/ca.zip
+```
+Extraire la CA :
+```
+unzip certs/ca.zip -d certs
+```
+Structure obtenue :
+```
+certs/ca/
+  ca.crt
+  ca.key
+```
+
+### 2. Generer le certificat serveur Elasticsearch
+```
+docker run --rm \
+  -v ./certs:/certs \
+  docker.elastic.co/elasticsearch/elasticsearch:9.2.0 \
+  elasticsearch-certutil cert --pem \
+  --ca-cert /certs/ca/ca.crt \
+  --ca-key /certs/ca/ca.key \
+  --out /certs/es.zip \
+  --name elasticsearch
+```
+Extraire les fichiers :
+```
+unzip certs/es.zip -d certs
+```
+Structure obtenue :
+```
+certs/elasticsearch/
+  elasticsearch.crt
+  elasticsearch.key
+```
+Ces chemins correspondent exactement aux parametres utilises dans le `docker-compose.yml`.
 
 ---
 
 ## Équipe du Projet
 
 - Ousmane Ibrahima SY [LinkedIn](https://www.linkedin.com/in/ousmane-sy-6926a6139) / [GitHub](https://github.com/Oussouke)
-- Arnaud GUILLOUX [LinkedIn](https://www.linkedin.com/) / [GitHub](https://github.com/)
-- Rodolphe Katz [LinkedIn](https://www.linkedin.com/) / [GitHub](https://github.com/)
 
