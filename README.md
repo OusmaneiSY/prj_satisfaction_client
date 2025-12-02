@@ -14,7 +14,7 @@ L'analyse couvre plusieurs dimensions clés de la supply chain : conception des 
 - Outils : Python (Requests, BeautifulSoup, Pandas).
 
 ### 2. Organisation de la Donnée
-- Stockage structuré des meta-donnée dans PostgreSQL.
+- Stockage structuré des meta-données dans PostgreSQL.
 - Stockage des commentaires dans Elasticsearch.
 - Visualisation dans Kibana.
 
