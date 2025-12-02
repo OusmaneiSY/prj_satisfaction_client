@@ -30,7 +30,7 @@ def test_comments_endpoint(mock_fetch):
 
     mock_fetch.return_value = fake_comments
 
-    response = client.get("/comments?company_name=TestCorp&limit=10")
+    response = client.get("/comments?company_name=amazon&limit=10")
 
     # Vérification du status code
     assert response.status_code == 200, (
@@ -42,7 +42,7 @@ def test_comments_endpoint(mock_fetch):
     data = response.json()
 
     # Vérification du champ company 
-    expected_company = "TestCorp"
+    expected_company = "amazon"
     received_company = data.get("company")
 
     assert received_company == expected_company, (

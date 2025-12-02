@@ -9,7 +9,7 @@ def get_es_client():
         ca_certs=os.getenv("CA_CERT_PATH")
     )
 
-def fetch_comments(company_name: str, size: int = 20):
+def fetch_comments(company_name: str, size: int = 50):
     es = get_es_client()
 
     query = {

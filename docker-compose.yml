@@ -36,6 +36,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ./volumes/etl_elt:/opt/airflow/external_data
     - ./certs:/opt/airflow/certs
+    - ./volumes/meta_data:/opt/airflow/meta_data
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -392,6 +393,65 @@ services:
     networks:
       - elk
   
+  postgres_metadata:
+    image: postgres:16
+    container_name: postgres_metadata
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-metadata-volume:/var/lib/postgresql/data
+    networks:
+      - elk
+    
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    ports:
+      - "9100:9100"
+    networks:
+      - elk
+    pid: "host"
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - elk
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - elk
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - elk
+    depends_on:
+      - prometheus
+
+
+
+
+  
 
 networks:
     elk:
@@ -399,3 +459,4 @@ networks:
 
 volumes:
   postgres-db-volume:
+  postgres-metadata-volume:

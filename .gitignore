@@ -32,4 +32,6 @@ __pycache__/
 *.pyc
 *.pyo
 
+volumes/
+
 
