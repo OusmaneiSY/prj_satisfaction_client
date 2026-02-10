@@ -1,4 +1,4 @@
-[![CI - Sentiment Analysis API](https://github.com/DataScientest-Studio/sep25_bde_satisfaction_b/actions/workflows/ci.yml/badge.svg?branch=osy_branch)](https://github.com/DataScientest-Studio/sep25_bde_satisfaction_b/actions/workflows/ci.yml)
+[![CI - Sentiment Analysis API](https://github.com/OusmaneiSY/prj_satisfaction_client/actions/workflows/ci.yml/badge.svg)](https://github.com/OusmaneiSY/prj_satisfaction_client/actions/workflows/ci.yml)
 # Projet : Satisfaction Client dans la Supply Chain
 
 ## Présentation et Objectifs
