@@ -224,7 +224,7 @@ Ces chemins correspondent exactement aux paramètres utilisés dans le `docker-c
 
 ---
 
-## Équipe du Projet
+## Réaliser par :
 
-- Ousmane Ibrahima SY [LinkedIn](https://www.linkedin.com/in/ousmane-sy-6926a6139) / [GitHub](https://github.com/Oussouke)
+- Ousmane Ibrahima SY [LinkedIn](https://www.linkedin.com/in/ousmane-sy-6926a6139) / [GitHub](https://github.com/OusmaneiSY)
 
